@@ -1,10 +1,10 @@
 from pathlib import Path
 
 
-PASTA_PROJETO = Path(__file__).resolve().parents[2]
+PROJECT_FOLDER = Path(__file__).resolve().parents[2]
 
-PASTA_DADOS = PASTA_PROJETO / "dados"
+DATA_FOLDER = PROJECT_FOLDER / "data"
 
-# coloque abaixo o caminho para os arquivos de dados de seu projeto
-DADOS_ORIGINAIS = PASTA_DADOS / "diabetes.csv"
-DADOS_TRATADOS = PASTA_DADOS / "diabetes_tratado.parquet"
+# Place the path to your project's data files below
+ORIGINAL_DATA = DATA_FOLDER / "diabetes.csv"
+PROCESSED_DATA = DATA_FOLDER / "diabetes_processed.parquet"

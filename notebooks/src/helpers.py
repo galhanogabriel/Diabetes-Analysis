@@ -1,289 +1,65 @@
-from collections import namedtuple
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
 from scipy.stats import (
-    f_oneway,
-    friedmanchisquare,
-    kruskal,
     levene,
     mannwhitneyu,
-    norm,
-    shapiro,
     ttest_ind,
-    ttest_rel,
-    wilcoxon,
 )
 
-def tabela_distribuicao_frequencias(dataframe, coluna, coluna_frequencia=False):
-    """Cria uma tabela de distribuição de frequências para uma coluna de um dataframe.
-    Espera uma coluna categórica.
+def levene_analysis(dataframe, alfa=0.05, center="mean"):
+    print("Levene's Test")
 
-    Parameters
-    ----------
-    dataframe : pd.DataFrame
-        Dataframe com os dados.
-    coluna : str
-        Nome da coluna categórica.
-    coluna_frequencia : bool
-        Informa se a coluna passada já é com os valores de frequência ou não. Padrão: False
-
-    Returns
-    -------
-    pd.DataFrame
-        Dataframe com a tabela de distribuição de frequências.
-    """ 
-    
-    df_estatistica = pd.DataFrame()
-
-    if coluna_frequencia:
-        df_estatistica["frequencia"] = dataframe[coluna]
-        df_estatistica["frequencia_relativa"] = df_estatistica["frequencia"] / df_estatistica["frequencia"].sum()
-    else:
-        df_estatistica["frequencia"] = dataframe[coluna].value_counts().sort_index()
-        df_estatistica["frequencia_relativa"] = dataframe[coluna].value_counts(normalize=True).sort_index()
-
-    df_estatistica["frequencia_acumulada"] = df_estatistica["frequencia"].cumsum()
-    df_estatistica["frequencia_relativa_acumulada"] = df_estatistica["frequencia_relativa"].cumsum()
-    
-    return df_estatistica
-
-def composicao_histograma_boxplot(dataframe, coluna, intervalos="auto"):
-    fig, (ax1, ax2) = plt.subplots(
-    nrows=2, 
-    ncols=1, 
-    sharex=True, 
-    gridspec_kw={"height_ratios": (0.15, 0.85),
-                 "hspace": 0.02}
-    )
-
-    sns.boxplot(data=dataframe, 
-            x=coluna, 
-            showmeans=True, 
-            meanline=True,
-            meanprops={"color": "C1", "linewidth": 1.5, "linestyle": "--"},
-            medianprops={"color": "C2", "linewidth": 1.5, "linestyle": "-"},
-            ax=ax1
-    )
-
-    sns.histplot(data=dataframe, x=coluna, kde=True, bins=intervalos, ax=ax2)
-
-    for ax in (ax1, ax2):
-        ax.grid(True, linestyle="--", color="gray", alpha=0.5)
-        ax.set_axisbelow(True)
-
-    ax2.axvline(dataframe[coluna].mean(), color="C1", linestyle="--", label="Média")
-    ax2.axvline(dataframe[coluna].median(), color="C2", linestyle="-", label="Mediana")
-    ax2.axvline(dataframe[coluna].mode()[0], color="C3", linestyle="--", label="Moda")
-    ax2.legend()
-
-    plt.show()
-
-def analise_shapiro(dataframe, alfa=0.05):
-    print("Teste de Shapiro-Wilk")
-    for coluna in dataframe.columns:
-        estatistica_sw, valor_p_sw = shapiro(dataframe[coluna], nan_policy="omit")
-        print(f"{estatistica_sw=:.3f}")
-        if valor_p_sw > alfa:
-            print(f"{coluna} segue uma distribuição normal (valor p: {valor_p_sw:.3f})")
-        else:
-            print(f"{coluna} não segue uma distribuição normal (valor p: {valor_p_sw:.3f})")
-
-def gradiente_descendente(funcao_derivada, inicio, taxa_aprendizagem, n_iteracoes=50):
-    """Função que implementa o algoritmo de gradiente descendente de forma simplificada.
-
-    Parameters
-    ----------
-    funcao_derivada : function
-        Derivada da função que se deseja minimizar.
-    inicio : float
-        Valor inicial para a busca.
-    taxa_aprendizagem : float
-        Valor do hiperparâmetro de aprendizagem.
-    n_iteracoes : int, opcional
-        Número de iterações, por padrão 50
-
-    Returns
-    -------
-    array
-        Array com os valores de cada iteração.
-    """
-    vetor = [inicio]
-    for _ in range(n_iteracoes):
-        derivada = funcao_derivada(vetor[-1])
-        atual = vetor[-1] - taxa_aprendizagem * derivada
-        vetor.append(atual)
-    return np.array(vetor)
-
-def analise_levene(dataframe, alfa=0.05, centro="mean"):
-    print("Teste de Levene")
-
-    estatistica_levene, valor_p_levene = levene(
-        *[dataframe[coluna] for coluna in dataframe.columns],
-        center=centro,
+    levene_statistics, p_value_levene = levene(
+        *[dataframe[column] for column in dataframe.columns],
+        center=center,
         nan_policy="omit",
     )
 
-    print(f"{estatistica_levene=:.3f}")
-    if valor_p_levene > alfa:
-        print(f"Variâncias iguais (valor p: {valor_p_levene:.3f})")
+    print(f"{levene_statistics=:.3f}")
+    if p_value_levene > alfa:
+        print(f"Equal Variances (p-value: {p_value_levene:.3f})")
     else:
-        print(f"Ao menos uma variância é diferente (valor p: {valor_p_levene:.3f})")
+        print(f"At least one variance is different (p-value: {p_value_levene:.3f})")
 
-def analises_shapiro_levene(dataframe, alfa=0.05, centro="mean"):
-    analise_shapiro(dataframe, alfa)
-
-    print()
-
-    analise_levene(dataframe, alfa, centro)
-
-def teste_z(dados, media_pop, desvio_pop):
-    n = len(dados)
-    media_amostral = np.mean(dados)
-    desvio_amostral = desvio_pop / np.sqrt(n)
-    z = (media_amostral - media_pop) / desvio_amostral
-    valor_p = 1 - norm.cdf(z)
-    TesteZ = namedtuple("TesteZ", ["estatistica", "valor_p"])
-    return TesteZ(z, valor_p)
-
-def analise_ttest_ind(
+def ttest_ind_analysis(
     dataframe,
     alfa=0.05,
-    variancias_iguais=True,
-    alternativa="two-sided",
+    equal_variances=True,
+    alternative="two-sided",
 ):
-    print("Teste t de Student")
-    estatistica_ttest, valor_p_ttest = ttest_ind(
-        *[dataframe[coluna] for coluna in dataframe.columns],
-        equal_var=variancias_iguais,
-        alternative=alternativa,
+    print("Student's t-Test")
+    ttest_statistics, p_value_ttest = ttest_ind(
+        *[dataframe[column] for column in dataframe.columns],
+        equal_var=equal_variances,
+        alternative=alternative,
         nan_policy="omit",
     )
 
-    print(f"{estatistica_ttest=:.3f}")
-    if valor_p_ttest > alfa:
-        print(f"Não rejeita a hipótese nula (valor p: {valor_p_ttest:.3f})")
+    print(f"{ttest_statistics=:.3f}")
+    if p_value_ttest > alfa:
+        print(f"Does not reject the null hypothesis (p-value: {p_value_ttest:.3f})")
     else:
-        print(f"Rejeita a hipótese nula (valor p: {valor_p_ttest:.3f})")
+        print(f"Rejects the null hypothesis (p-value: {p_value_ttest:.3f})")
 
-def analise_ttest_rel(
+def manwhiteney_analysis(
     dataframe,
     alfa=0.05,
-    alternativa="two-sided",
-):
-    print("Teste t de Student")
-    estatistica_ttest, valor_p_ttest = ttest_rel(
-        *[dataframe[coluna] for coluna in dataframe.columns], 
-        alternative=alternativa,
-        nan_policy="omit"
-    )
-        
-    print(f"{estatistica_ttest=:.3f}")
-    if valor_p_ttest > alfa:
-        print(f"Não rejeita a hipótese nula (valor p: {valor_p_ttest:.3f})")
-    else:
-        print(f"Rejeita a hipótese nula (valor p: {valor_p_ttest:.3f})")
-
-def analise_anova_one_way(
-    dataframe,
-    alfa=0.05,
-):
-    
-    print("Teste ANOVA one way")
-    estatistica_f, valor_p_f = f_oneway(
-        *[dataframe[coluna] for coluna in dataframe.columns], 
-        nan_policy="omit"
-    )
-        
-    print(f"{estatistica_f=:.3f}")
-    if valor_p_f > alfa:
-        print(f"Não rejeita a hipótese nula (valor p: {valor_p_f:.3f})")
-    else:
-        print(f"Rejeita a hipótese nula (valor p: {valor_p_f:.3f})")
-
-def analise_wilcoxon(
-    dataframe,
-    alfa=0.05,
-    alternativa="two-sided",
+    alternative="two-sided",
 ):
 
-    print("Teste de Wilcoxon")
-    estatistica_wilcoxon, valor_p_wilcoxon = wilcoxon(
-        *[dataframe[coluna] for coluna in dataframe.columns],
+    print("Mann-Whitney Test")
+    mw_statistics, p_value_mw = mannwhitneyu(
+        *[dataframe[column] for column in dataframe.columns],
         nan_policy="omit",
-        alternative=alternativa,
+        alternative=alternative,
     )
 
-    print(f"{estatistica_wilcoxon=:.3f}")
-    if valor_p_wilcoxon > alfa:
-        print(f"Não rejeita a hipótese nula (valor p: {valor_p_wilcoxon:.3f})")
+    print(f"{mw_statistics=:.3f}")
+    if p_value_mw > alfa:
+        print(f"Does not reject the null hypothesis (p-value: {p_value_mw:.3f})")
     else:
-        print(f"Rejeita a hipótese nula (valor p: {valor_p_wilcoxon:.3f})")
+        print(f"Rejects the null hypothesis (p-value: {p_value_mw:.3f})")
 
-def analise_mannwhitneyu(
-    dataframe,
-    alfa=0.05,
-    alternativa="two-sided",
-):
-
-    print("Teste de Mann-Whitney")
-    estatistica_mw, valor_p_mw = mannwhitneyu(
-        *[dataframe[coluna] for coluna in dataframe.columns],
-        nan_policy="omit",
-        alternative=alternativa,
-    )
-
-    print(f"{estatistica_mw=:.3f}")
-    if valor_p_mw > alfa:
-        print(f"Não rejeita a hipótese nula (valor p: {valor_p_mw:.3f})")
-    else:
-        print(f"Rejeita a hipótese nula (valor p: {valor_p_mw:.3f})")
-
-def analise_friedman(
-    dataframe,
-    alfa=0.05,
-):
-
-    print("Teste de Friedman")
-    estatistica_friedman, valor_p_friedman = friedmanchisquare(
-        *[dataframe[coluna] for coluna in dataframe.columns],
-        nan_policy="omit",
-    )
-
-    print(f"{estatistica_friedman=:.3f}")
-    if valor_p_friedman > alfa:
-        print(f"Não rejeita a hipótese nula (valor p: {valor_p_friedman:.3f})")
-    else:
-        print(f"Rejeita a hipótese nula (valor p: {valor_p_friedman:.3f})")
-
-
-def analise_kruskal(
-    dataframe,
-    alfa=0.05,
-):
-
-    print("Teste de Kruskal")
-    estatistica_kruskal, valor_p_kruskal = kruskal(
-        *[dataframe[coluna] for coluna in dataframe.columns],
-        nan_policy="omit",
-    )
-
-    print(f"{estatistica_kruskal=:.3f}")
-    if valor_p_kruskal > alfa:
-        print(f"Não rejeita a hipótese nula (valor p: {valor_p_kruskal:.3f})")
-    else:
-        print(f"Rejeita a hipótese nula (valor p: {valor_p_kruskal:.3f})")
-
-def remove_outliers(dados, largura_bigodes=1.5):
-    q1 = dados.quantile(0.25)
-    q3 = dados.quantile(0.75)
+def remove_outliers(data, whisker_width=1.5):
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     iqr = q3 - q1
-    return dados[(dados >= q1 - largura_bigodes * iqr) & (dados <= q3 + largura_bigodes * iqr)]
-
-def dataframe_coeficientes(coeficientes, colunas):
-    return pd.DataFrame(
-        data=coeficientes, 
-        index=colunas, 
-        columns=["coeficiente"],
-    ).sort_values(by="coeficiente")
+    return data[(data >= q1 - whisker_width * iqr) & (data <= q3 + whisker_width * iqr)]

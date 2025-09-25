@@ -1,0 +1,24 @@
+# Dicionário de dados
+
+- `Diabetes_binary`: 0 = no diabetes, 1 = with diabetes
+- `HighBP`: 0 = no high blood pressure, 1 = with high blood pressure
+- `HighChol`: 0 = no high cholesterol, 1 = with high cholesterol
+- `CholCheck`: 0 = never had a cholesterol test, 1 = had a cholesterol test at some point
+- `BMI`: Body Mass Index (BMI)
+- `Smoker`: 0 = non-smoker, 1 = smoker
+- `Stroke`: 0 = sem histórico de AVC, 1 = com histórico de AVC
+- `HeartDiseaseorAttack`: 0 = no history of heart disease or heart attack, 1 = with history of heart disease or heart attack
+- `PhysActivity`: 0 = does not engage in physical activity, 1 = engages in physical activity
+- `Fruits`: 0 = does not consume fruits, 1 = consumes fruits
+- `Veggies`: 0 = does not consume vegetables, 1 = consumes vegetables
+- `HvyAlcoholConsump`: 0 = does not consume alcohol in high amounts, 1 = consumes alcohol in high amounts
+- `AnyHealthcare`: 0 = does not have health insurance, 1 = has health insurance
+- `NoDocbcCost`: 0 = did not visit a doctor due to financial reasons, 1 = visited a doctor due to financial reasons (last 12 months)
+- `GenHlth`: General health (1 to 5) - 1 = Excellent, 2 = Very good, 3 = Good, 4 = Fair, 5 = Poor
+- `MentHlth`: In the last 30 days, how many days was mental health not good (0 to 30)
+- `PhysHlth`: In the last 30 days, how many days was physical health not good (0 to 30)
+- `DiffWalk`: 0 = no difficulty walking, 1 = has difficulty walking
+- `Sex`: 0 = female, 1 = male
+- `Age`: Age in ranges 1 = 18-24; 2 = 25-29; 3 = 30-34; 4 = 35-39; 5 = 40-44; 6 = 45-49; 7 = 50-54; 8 = 55-59; 9 = 60-64; 10 = 65-69; 11 = 70-74; 12 = 75-79; 13 = 80+
+- `Education`: Education levels 1 = never attended school; 2 = elementary school; 3 = incomplete high school; 4 = high school; 5 = incomplete college or technical course; 6 = completed college or higher degrees
+- `Income`: Annual income in ranges 1 = < 10,000; 2 = 10,000-14,999; 3 = 15,000-19,999; 4 = 20,000-24,999; 5 = 25,000-34,999; 6 = 35,000-49,999; 7 = 50,000-74,999; 8 = 75,000+
