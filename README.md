@@ -6,8 +6,6 @@ Key risk factors include obesity, genetic predisposition, sedentary lifestyle, h
 
 This project analyzes demographic, clinical, and lifestyle factors associated with diabetes prevalence, exploring correlations between socioeconomic status, health behaviors, and disease outcomes.
 
-Clique no botão **Use this template** para criar um novo repositório com base neste modelo.
-
 ## Project Organization
 
 ```
