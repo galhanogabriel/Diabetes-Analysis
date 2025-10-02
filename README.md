@@ -1,78 +1,56 @@
 # Modelo de projeto de ciência de dados
 
+Diabetes mellitus is a chronic metabolic disorder characterized by elevated blood glucose levels resulting from defects in insulin production, insulin action, or both. The disease manifests primarily in two forms: Type 1 diabetes, an autoimmune condition where the pancreas fails to produce insulin, and Type 2 diabetes, characterized by insulin resistance and relative insulin deficiency.
 
+Key risk factors include obesity, genetic predisposition, sedentary lifestyle, hypertension, and dyslipidemia. Long-term complications affect multiple organ systems, including cardiovascular disease, neuropathy, nephropathy, and retinopathy. Management focuses on glycemic control through medication, dietary modifications, physical activity, and regular monitoring.
 
-Inspiração: [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/)
+This project analyzes demographic, clinical, and lifestyle factors associated with diabetes prevalence, exploring correlations between socioeconomic status, health behaviors, and disease outcomes.
 
 Clique no botão **Use this template** para criar um novo repositório com base neste modelo.
 
-## Organização do projeto
+## Project Organization
 
 ```
-├── .env               <- Arquivo de variáveis de ambiente (não versionar)
-├── .gitignore         <- Arquivos e diretórios a serem ignorados pelo Git
-├── environment.yml    <- O arquivo de requisitos para reproduzir o ambiente de análise
-├── LICENSE            <- Licença de código aberto se uma for escolhida
-├── README.md          <- README principal para desenvolvedores que usam este projeto.
+├── .gitignore         <- Files and directories to be ignored by Git
+├── environment.yml    <- The requirements file to reproduce the analysis environment
+├── LICENSE            <- Open source license (MIT)
+├── README.md          <- Main README for developers using this project.
 |
-├── dados              <- Arquivos de dados para o projeto.
+├── dados              <- Data files for the project.
 |
-├── notebooks          <- Cadernos Jupyter. A convenção de nomenclatura é um número (para ordenação),
-│                         as iniciais do criador e uma descrição curta separada por `-`, por exemplo
-│                         `01-fb-exploracao-inicial-de-dados`.
+├── notebooks          <- Jupyter Notebooks
 │
-|   └──src             <- Código-fonte para uso neste projeto.
+|   └──src             <- Source code for use in this project.
 |      │
-|      ├── __init__.py  <- Torna um módulo Python
-|      ├── config.py    <- Configurações básicas do projeto
+|      ├── __init__.py  <- Makes it a Python module
+|      ├── config.py    <- Basic project settings
+|      └── helpers.py   <- Functions created specifically for this project
 |
-├── referencias        <- Dicionários de dados, manuais e todos os outros materiais explicativos.
+├── referencias        <- Data dictionaries.
 ```
 
-## Configuração do ambiente
+## Environment Setup
 
-1. Faça o clone do repositório que será criado a partir deste modelo.
+1. Clone the repository that will be created from this template.
 
     ```bash
-    git clone ENDERECO_DO_REPOSITORIO
+    git clone REPOSITORY_ADDRESS
     ```
 
-2. Crie um ambiente virtual para o seu projeto utilizando o gerenciador de ambientes de sua preferência.
+2. Create a virtual environment for your project using your preferred environment manager.
 
-    a. Caso esteja utilizando o `conda`, exporte as dependências do ambiente para o arquivo `ambiente.yml`:
+    ```bash
+    conda env export > ambiente.yml
+    ```
 
-      ```bash
-      conda env export > ambiente.yml
-      ```
+## More About the Dataset
 
-    b. Caso esteja utilizando outro gerenciador de ambientes, exporte as dependências
-    para o arquivo `requirements.txt` ou outro formato de sua preferência. Adicione o
-    arquivo ao controle de versão, removendo o arquivo `ambiente.yml`.
+[Click here](references\01_dicionario_de_dados.md) to view the data dictionary
 
-3. Verifique o arquivo `notebooks/01-fb-exemplo.ipynb` para exemplos
-de uso do código.
-4. Renomeie o arquivo `notebooks/01-fb-exemplo.ipynb` para um nome
-mais apropriado ao seu projeto. E siga a convenção de nomenclatura para os demais
-notebooks.
-5. Remova arquivos de exemplo e adicione os arquivos de dados e notebooks do seu
-projeto.
-6. Verifique o arquivo `notebooks/src/config.py` para configurações básicas do projeto.
-Modifique conforme necessário, adicionando ou removendo caminhos de arquivos e
-diretórios.
-7. Atualize o arquivo `referencias/01_dicionario_de_dados.md` com o dicionário de dados
-do seu projeto.
-8. Atualize o `README.md` com informações sobre o seu projeto.
-9. Adicione uma licença ao projeto. Clique
-[aqui](https://docs.github.com/pt/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)
-se precisar de ajuda para escolher uma licença.
-10. Renomeie o arquivo `.env.exemplo` para `.env`
-11. Adicione variáveis de ambiente sensíveis ao arquivo `.env`.
+## Summary of Key Results
 
-Por padrão, o arquivo `.gitignore` já está configurado para ignorar arquivos de dados e
-arquivos de Notebook (para aqueles que usam ferramentas como
-[Jupytext](https://jupytext.readthedocs.io/en/latest/) e similares). Adicione ou remova
-outros arquivos e diretórios do `.gitignore` conforme necessário. Caso deseje adicionar
-forçadamente um Notebook ao controle de versão, faça um commit forçado com o
-comando `git add --force NOME_DO_ARQUIVO.ipynb`.
+The analysis confirms hypertension and poor general health status as the strongest predictors of diabetes prevalence, with worsening health levels showing increased disease probability.
 
-Para mais informações sobre como usar Git e GitHub, [clique aqui](https://cienciaprogramada.com.br/2021/09/guia-definitivo-git-github/). Sobre ambientes virtuais, [clique aqui](https://cienciaprogramada.com.br/2020/08/ambiente-virtual-projeto-python/).
+The inverse relationship between physical activity and diabetes risk explains the observed associations with mobility limitations and advanced age, as both conditions typically reduce exercise capacity. Socioeconomic factors demonstrate the strongest negative correlations, suggesting better healthcare access, nutritional literacy, and fitness resources mediate diabetes risk.
+
+Data quality limitations were noted, with numerous zero values in certain columns potentially obscuring finer relationships, though the overall patterns remain statistically significant.
