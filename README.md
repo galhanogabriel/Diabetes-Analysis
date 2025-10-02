@@ -43,7 +43,7 @@ This project analyzes demographic, clinical, and lifestyle factors associated wi
 
 ## More About the Dataset
 
-[Click here](references\data_dictionaries.md) to view the data dictionary
+[Click here](references/data_dictionaries.md) to view the data dictionary
 
 ## Summary of Key Results
 
