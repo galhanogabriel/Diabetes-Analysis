@@ -32,13 +32,13 @@ This project analyzes demographic, clinical, and lifestyle factors associated wi
 1. Clone the repository that will be created from this template.
 
     ```bash
-    git clone REPOSITORY_ADDRESS
+    git clone git@github.com:galhanogabriel/Diabetes-Analysis.git
     ```
 
-2. Create a virtual environment for your project using your preferred environment manager.
+2. Create a virtual environment for your project using conda.
 
     ```bash
-    conda env export > ambiente.yml
+    conda env create -f ambiente.yml --name diabetes_analysis
     ```
 
 ## More About the Dataset
