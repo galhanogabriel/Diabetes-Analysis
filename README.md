@@ -1,4 +1,4 @@
-# Modelo de projeto de ciência de dados
+# Data Science Diabetes Project
 
 Diabetes mellitus is a chronic metabolic disorder characterized by elevated blood glucose levels resulting from defects in insulin production, insulin action, or both. The disease manifests primarily in two forms: Type 1 diabetes, an autoimmune condition where the pancreas fails to produce insulin, and Type 2 diabetes, characterized by insulin resistance and relative insulin deficiency.
 
