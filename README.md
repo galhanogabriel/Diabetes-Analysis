@@ -9,20 +9,20 @@ This project analyzes demographic, clinical, and lifestyle factors associated wi
 ## Project Organization
 
 ```
-├── .gitignore         <- Files and directories to be ignored by Git
-├── environment.yml    <- The requirements file to reproduce the analysis environment
-├── LICENSE            <- Open source license (MIT)
+├── .gitignore         <- Files and directories to be ignored by Git.
+├── environment.yml    <- The requirements file to reproduce the analysis environment.
+├── LICENSE            <- Open source license (MIT).
 ├── README.md          <- Main README for developers using this project.
 |
 ├── dados              <- Data files for the project.
 |
-├── notebooks          <- Jupyter Notebooks
+├── notebooks          <- Jupyter Notebooks.
 │
 |   └──src             <- Source code for use in this project.
 |      │
-|      ├── __init__.py  <- Makes it a Python module
-|      ├── config.py    <- Basic project settings
-|      └── helpers.py   <- Functions created specifically for this project
+|      ├── __init__.py  <- Makes it a Python module.
+|      ├── config.py    <- Basic project settings.
+|      └── helpers.py   <- Functions created specifically for this project.
 |
 ├── referencias        <- Data dictionaries.
 ```
